@@ -1,24 +1,24 @@
 #include <WiFi.h>
 #include <ThingerESP32.h>
-#define USERNAME "gabrile"
-#define DEVICE_ID "esp32_led"
+/* ========= THINGER.IO ========= */
+#define USERNAME "Gabrile"
+#define DEVICE_ID "LED1"
 #define DEVICE_CREDENTIAL "123456"
-#define SSID "CELERITY C"
-#define SSID_PASSWORD "TU_CLAVE_WIFI" // Reemplaza por tu clave
-#define LED1 2 // LED 1 (interno o externo)
-#define LED2 4 // LED 2 (externo recomendado)
+/* ========= WIFI ========= */
+#define SSID "TU WIFI"
+#define SSID_PASSWORD "TU CLAVE DE WIFI" // Reemplaza por tu clave
+/* ========= LED ========= */
+#define LED_PIN 2 // LED interno del ESP32 (GPIO2)
 ThingerESP32 thing(USERNAME, DEVICE_ID, DEVICE_CREDENTIAL);
 void setup() {
  Serial.begin(115200);
  delay(1000);
- pinMode(LED1, OUTPUT);
- pinMode(LED2, OUTPUT);
- digitalWrite(LED1, LOW);
- digitalWrite(LED2, LOW);
+ pinMode(LED_PIN, OUTPUT);
+ digitalWrite(LED_PIN, LOW);
  thing.add_wifi(SSID, SSID_PASSWORD);
- // Recursos para el Dashboard (dos switches)
- thing["led1"] << digitalPin(LED1);
- thing["led2"] << digitalPin(LED2);
+ // Recurso para control desde Thinger (Switch)
+ thing["led"] << digitalPin(LED_PIN);
+ Serial.println("ESP32 iniciado. Revisa Thinger.io (ONLINE).");
 }
 void loop() {
  thing.handle();
